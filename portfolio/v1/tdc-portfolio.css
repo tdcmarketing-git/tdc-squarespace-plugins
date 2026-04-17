@@ -1,0 +1,204 @@
+/* ================================================================
+   TDC Portfolio Plugin v1.0
+   Hero carousel, list, and grid layouts for Squarespace portfolios
+   ================================================================ */
+
+/* ---- THEMEABLE VARIABLES (clients can override in Custom CSS) ---- */
+:root {
+  --tdc-accent: #FCB040;
+  --tdc-accent-hover: #E09B36;
+  --tdc-text-light: #ffffff;
+  --tdc-text-dark: #000000;
+  --tdc-overlay-start: rgba(0,0,0,0.85);
+  --tdc-overlay-end: rgba(0,0,0,0.4);
+  --tdc-font-heading: inherit;
+  --tdc-font-body: inherit;
+}
+
+/* ---- SHARED ---- */
+.tdc-portfolio { width: 100%; margin-bottom: 20px; }
+.tdc-portfolio *, .tdc-portfolio *::before, .tdc-portfolio *::after { box-sizing: border-box; }
+.tdc-portfolio a { text-decoration: none; color: inherit; }
+
+.tdc-portfolio-loading {
+  padding: 40px; text-align: center; color: #888; font-size: 14px;
+}
+
+.tdc-portfolio-error {
+  padding: 20px; text-align: center; color: #c33;
+  background: #fee; border: 1px solid #fcc; border-radius: 4px;
+}
+
+/* ================================================================
+   HERO LAYOUT
+   ================================================================ */
+.tdc-hero {
+  position: relative; width: 100%; height: 600px;
+  background: #000; overflow: hidden;
+  display: flex; align-items: center;
+}
+
+.tdc-hero-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 0.8s ease-in-out;
+  display: flex; align-items: center; z-index: 1;
+}
+.tdc-hero-slide.active { opacity: 1; z-index: 2; }
+
+.tdc-hero-slide::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--tdc-overlay-start), var(--tdc-overlay-end));
+  z-index: 1;
+}
+
+.tdc-hero-content {
+  position: relative; z-index: 2;
+  max-width: 600px; padding: 0 60px; color: var(--tdc-text-light);
+}
+
+.tdc-hero-title {
+  font-family: var(--tdc-font-heading);
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.1; margin: 0 0 16px; font-weight: 700;
+}
+
+.tdc-hero-excerpt {
+  font-family: var(--tdc-font-body);
+  font-size: 16px; line-height: 1.5; margin: 0 0 24px;
+  opacity: 0.9;
+}
+.tdc-hero-excerpt:empty { display: none; }
+
+.tdc-hero-btn {
+  display: inline-block; padding: 12px 28px;
+  background: var(--tdc-accent); color: var(--tdc-text-dark);
+  font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  font-size: 13px; transition: background 0.2s;
+}
+.tdc-hero-btn:hover { background: var(--tdc-accent-hover); }
+
+/* Arrows */
+.tdc-hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 5; background: rgba(0,0,0,0.4); border: none;
+  width: 48px; height: 48px; color: #fff; font-size: 20px;
+  cursor: pointer; transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.tdc-hero-arrow:hover { background: var(--tdc-accent); color: var(--tdc-text-dark); }
+.tdc-hero-arrow.prev { left: 16px; }
+.tdc-hero-arrow.next { right: 16px; }
+
+/* Progress bar */
+.tdc-hero-progress {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: rgba(255,255,255,0.2); z-index: 5;
+}
+.tdc-hero-progress-bar {
+  height: 100%; background: var(--tdc-accent); width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* Dots */
+.tdc-hero-dots {
+  position: absolute; bottom: 20px; left: 50%;
+  transform: translateX(-50%); z-index: 5;
+  display: flex; gap: 8px;
+}
+.tdc-hero-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255,255,255,0.4); border: none; cursor: pointer;
+  transition: background 0.2s;
+}
+.tdc-hero-dot.active { background: var(--tdc-accent); }
+
+@media (max-width: 640px) {
+  .tdc-hero { height: 480px; }
+  .tdc-hero-content { padding: 0 24px; }
+  .tdc-hero-arrow { width: 36px; height: 36px; }
+}
+
+/* ================================================================
+   LIST LAYOUT
+   ================================================================ */
+.tdc-list { display: flex; flex-direction: column; gap: 20px; }
+
+.tdc-list-item {
+  display: flex; gap: 24px; align-items: center;
+  padding: 20px; background: #fafafa;
+  transition: background 0.2s, transform 0.2s;
+}
+.tdc-list-item:hover {
+  background: #f0f0f0; transform: translateX(4px);
+}
+
+.tdc-list-img {
+  flex: 0 0 240px; height: 160px;
+  background-size: cover; background-position: center;
+}
+
+.tdc-list-content { flex: 1; }
+
+.tdc-list-title {
+  font-family: var(--tdc-font-heading);
+  font-size: 22px; margin: 0 0 8px; font-weight: 700;
+  color: var(--tdc-text-dark);
+}
+
+.tdc-list-excerpt {
+  font-size: 14px; color: #555; margin: 0 0 12px; line-height: 1.5;
+}
+.tdc-list-excerpt:empty { display: none; }
+
+.tdc-list-link {
+  color: var(--tdc-accent); font-weight: 600;
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.tdc-list-link:hover { color: var(--tdc-accent-hover); }
+
+@media (max-width: 640px) {
+  .tdc-list-item { flex-direction: column; align-items: stretch; }
+  .tdc-list-img { flex-basis: auto; height: 200px; }
+}
+
+/* ================================================================
+   GRID LAYOUT
+   ================================================================ */
+.tdc-grid {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(var(--tdc-cols, 3), 1fr);
+}
+
+.tdc-grid-item {
+  position: relative; aspect-ratio: 4 / 3;
+  overflow: hidden; background: #000;
+  display: block;
+}
+
+.tdc-grid-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.5s ease;
+}
+.tdc-grid-item:hover .tdc-grid-img { transform: scale(1.08); }
+
+.tdc-grid-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%);
+  display: flex; align-items: flex-end; padding: 20px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.tdc-grid-item:hover .tdc-grid-overlay { opacity: 1; }
+
+.tdc-grid-title {
+  color: var(--tdc-text-light); font-family: var(--tdc-font-heading);
+  font-size: 20px; margin: 0; font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .tdc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .tdc-grid { grid-template-columns: 1fr; }
+}
